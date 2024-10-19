@@ -2,12 +2,20 @@
 
 namespace App\Livewire;
 
+use App\Models\Services;
 use Livewire\Component;
+
 
 class Footer extends Component
 {
+    public $services;
+
+    public function mount(){
+        $this->services=Services::all();
+    }
     public function render()
     {
+        $services=Services::all();
         return <<<'HTML'
         <footer class="section-sm bg-tertiary">
             <div class="container">
@@ -16,16 +24,10 @@ class Footer extends Component
                         <div class="footer-widget">
                             <h5 class="mb-4 text-primary font-secondary">Service</h5>
                             <ul class="list-unstyled">
-                                <li class="mb-2"><a href="service-details.html">Digital Marketing</a>
+                                @foreach($services as $service)
+                                <li class="mb-2"><a wire:navigate href="{{ route('servicePage',$service->id)}}">{{$service->title}}</a>
                                 </li>
-                                <li class="mb-2"><a href="service-details.html">Web Design</a>
-                                </li>
-                                <li class="mb-2"><a href="service-details.html">Logo Design</a>
-                                </li>
-                                <li class="mb-2"><a href="service-details.html">Graphic Design</a>
-                                </li>
-                                <li class="mb-2"><a href="service-details.html">SEO</a>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -33,13 +35,13 @@ class Footer extends Component
                         <div class="footer-widget">
                             <h5 class="mb-4 text-primary font-secondary">Quick Links</h5>
                             <ul class="list-unstyled">
-                                <li class="mb-2"><a href="#!">About Us</a>
+                                <li class="mb-2"><a wire:navigate  href="{{ route('page',1) }}">About Us</a>
                                 </li>
-                                <li class="mb-2"><a href="#!">Contact Us</a>
+                                <li class="mb-2"><a wire:navigate  href="{{ route('contacts') }}">Contact Us</a>
                                 </li>
-                                <li class="mb-2"><a href="#!">Blog</a>
+                                <li class="mb-2"><a wire:navigate  href="{{ route('articles') }}">Blog</a>
                                 </li>
-                                <li class="mb-2"><a href="#!">Team</a>
+                                <li class="mb-2"><a wire:navigate  href="{{ route('teams') }}">Team</a>
                                 </li>
                             </ul>
                         </div>
@@ -48,9 +50,9 @@ class Footer extends Component
                         <div class="footer-widget">
                             <h5 class="mb-4 text-primary font-secondary">Other Links</h5>
                             <ul class="list-unstyled">
-                                <li class="list-inline-item me-4"><a class="text-black" href="privacy-policy.html">Privacy Policy</a>
+                                <li class="list-inline-item me-4"><a class="text-black" href="{{ route('page',2) }}">Privacy Policy</a>
                                 </li>
-                                <li class="list-inline-item me-4"><a class="text-black" href="terms.html">Terms &amp; Conditions</a>
+                                <li class="list-inline-item me-4"><a class="text-black" href="{{ route('page',3) }}">Terms &amp; Conditions</a>
                                 </li>
                             </ul>
                         </div>
